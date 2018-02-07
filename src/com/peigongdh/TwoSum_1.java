@@ -22,58 +22,59 @@ public class TwoSum_1 {
         int[] result3 = new Solution().twoSum3(nums, target);
         System.out.println(Arrays.toString(result3));
     }
+
+    static class Solution {
+
+        int[] twoSum(int[] nums, int target) {
+            for (int i = 0; i < nums.length - 1; i++) {
+                for (int j = i + 1; j < nums.length; j++) {
+                    if (nums[i] + nums[j] == target) {
+                        return new int[]{i, j};
+                    }
+                }
+            }
+            return new int[]{-1, -1};
+        }
+
+        int[] twoSum2(int[] nums, int target) {
+            Map<Integer, Integer> numsToMap = new HashMap<>();
+            for (int i = 0; i < nums.length; i++) {
+                numsToMap.put(nums[i], i);
+            }
+            for (int i = 0; i < nums.length; i++) {
+                int needNum = target - nums[i];
+                if (numsToMap.containsKey(needNum)) {
+                    int otherIndex = numsToMap.get(needNum);
+
+                    // cannot use twice
+                    if (otherIndex == i) {
+                        continue;
+                    }
+
+                    return new int[]{i, otherIndex};
+                }
+            }
+            return new int[]{-1, -1};
+        }
+
+        int[] twoSum3(int[] nums, int target) {
+            Map<Integer, Integer> numsToMap = new HashMap<>();
+            for (int i = 0; i < nums.length; i++) {
+                int needNum = target - nums[i];
+                if (numsToMap.containsKey(needNum)) {
+                    int otherIndex = numsToMap.get(needNum);
+
+                    // cannot use twice
+                    if (otherIndex == i) {
+                        continue;
+                    }
+
+                    return new int[]{i, otherIndex};
+                }
+                numsToMap.put(nums[i], i);
+            }
+            return new int[]{-1, -1};
+        }
+    }
 }
 
-class Solution {
-
-    public int[] twoSum(int[] nums, int target) {
-        for (int i = 0; i < nums.length - 1; i++) {
-            for (int j = i + 1; j < nums.length; j++) {
-                if (nums[i] + nums[j] == target) {
-                    return new int[]{i, j};
-                }
-            }
-        }
-        return new int[]{-1, -1};
-    }
-
-    public int[] twoSum2(int[] nums, int target) {
-        Map<Integer, Integer> numsToMap = new HashMap<>();
-        for (int i = 0; i < nums.length; i++) {
-            numsToMap.put(nums[i], i);
-        }
-        for (int i = 0; i < nums.length; i++) {
-            int needNum = target - nums[i];
-            if (numsToMap.containsKey(needNum)) {
-                int otherIndex = numsToMap.get(needNum);
-
-                // cannot use twice
-                if (otherIndex == i) {
-                    continue;
-                }
-
-                return new int[]{i, otherIndex};
-            }
-        }
-        return new int[]{-1, -1};
-    }
-
-    public int[] twoSum3(int[] nums, int target) {
-        Map<Integer, Integer> numsToMap = new HashMap<>();
-        for (int i = 0; i < nums.length; i++) {
-            int needNum = target - nums[i];
-            if (numsToMap.containsKey(needNum)) {
-                int otherIndex = numsToMap.get(needNum);
-
-                // cannot use twice
-                if (otherIndex == i) {
-                    continue;
-                }
-
-                return new int[]{i, otherIndex};
-            }
-            numsToMap.put(nums[i], i);
-        }
-        return new int[]{-1, -1};
-    }
-}

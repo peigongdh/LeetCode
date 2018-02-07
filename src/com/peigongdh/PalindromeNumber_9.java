@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
-import java.util.Stack;
 
 public class PalindromeNumber_9 {
 
@@ -30,7 +28,7 @@ public class PalindromeNumber_9 {
 
     static class Solution {
 
-        public boolean isPalindrome(int x) {
+        boolean isPalindrome(int x) {
             int tmpX = x;
 
             List<Integer> list = new ArrayList<>();
@@ -46,10 +44,9 @@ public class PalindromeNumber_9 {
             }
 
             int reverseX = 0;
-            ListIterator<Integer> li = list.listIterator();
-            while (li.hasNext()) {
+            for (Integer aList : list) {
                 reverseX *= 10;
-                reverseX += li.next();
+                reverseX += aList;
             }
 
             return reverseX == x;
