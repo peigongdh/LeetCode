@@ -61,7 +61,7 @@ public class LongestWordInDictionary_720 {
 
     static class Node {
         char c;
-        Map<Character, Node> children = new HashMap();
+        Map<Character, Node> children = new HashMap<>();
         int end;
 
         Node(char c) {
