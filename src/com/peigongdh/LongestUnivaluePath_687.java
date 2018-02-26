@@ -3,8 +3,7 @@ package com.peigongdh;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 
 public class LongestUnivaluePath_687 {
 
@@ -78,26 +77,51 @@ public class LongestUnivaluePath_687 {
 
     static class Solution {
 
-        int longestUnivaluePath(TreeNode root) {
+        Map<Integer, Integer> map = new HashMap<>();
 
+        int longestUnivaluePath(TreeNode root) {
+            longestUnivaluePathSub(root);
+            int max = 0;
+            for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+                if (entry.getValue() > max) {
+                    max = entry.getValue();
+                }
+            }
+            return max;
         }
 
-        int longestUnivaluePath(TreeNode root, int target) {
+        void longestUnivaluePathSub(TreeNode root) {
+            if (root != null) {
+                longestUnivaluePathSub(root, root.val);
+                longestUnivaluePathSub(root.left);
+                longestUnivaluePathSub(root.right);
+            }
+        }
+
+        int longestUnivaluePathSub(TreeNode root, int target) {
             int length = 0;
 
-            if (root == null) {
-                return 0;
+            if (root != null) {
+                if (root.val == target) {
+                    if (root.left != null) {
+                        if (root.left.val == target) {
+                            length = 1 + longestUnivaluePathSub(root.left, target);
+                        }
+                    }
+                    if (root.right != null) {
+                        if (root.right.val == target) {
+                            length += 1 + longestUnivaluePathSub(root.right, target);
+                        }
+                    }
+                }
             }
 
-            if (root.val == target) {
-                if (root.left != null) {
-                    length = 1 + longestUnivaluePath(root.left, target);
-                }
-                if (root.right != null) {
-                    length += 1 + longestUnivaluePath(root.right, target);
-                }
+            if (!map.containsKey(target)) {
+                map.put(target, length);
             } else {
-                length = Math.max(longestUnivaluePath(root.left), longestUnivaluePath(root.right));
+                if (length > map.get(target)) {
+                    map.put(target, length);
+                }
             }
 
             return length;
