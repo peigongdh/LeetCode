@@ -3,9 +3,10 @@ package com.peigongdh;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.*;
+import java.util.LinkedList;
+import java.util.Queue;
 
-public class SecondMinimumNodeInaBinaryTree_671 {
+public class SameTree_100 {
 
     static class TreeNode {
         int val;
@@ -17,7 +18,7 @@ public class SecondMinimumNodeInaBinaryTree_671 {
         }
     }
 
-    private static TreeNode stringToTreeNode(String input) {
+    public static TreeNode stringToTreeNode(String input) {
         input = input.trim();
         input = input.substring(1, input.length() - 1);
         if (input.length() == 0) {
@@ -61,15 +62,21 @@ public class SecondMinimumNodeInaBinaryTree_671 {
         return root;
     }
 
+    public static String booleanToString(boolean input) {
+        return input ? "True" : "False";
+    }
+
     public static void main(String[] args) throws IOException {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         String line;
         while ((line = in.readLine()) != null) {
-            TreeNode root = stringToTreeNode(line);
+            TreeNode p = stringToTreeNode(line);
+            line = in.readLine();
+            TreeNode q = stringToTreeNode(line);
 
-            int ret = new Solution().findSecondMinimumValue(root);
+            boolean ret = new Solution().isSameTree(p, q);
 
-            String out = String.valueOf(ret);
+            String out = booleanToString(ret);
 
             System.out.print(out);
         }
@@ -77,58 +84,27 @@ public class SecondMinimumNodeInaBinaryTree_671 {
 
     static class Solution {
 
-//        List<Integer> list = new ArrayList<>();
-//
-//        int findSecondMinimumValue(TreeNode root) {
-//            findSecondMinimumValueSub(root);
-//            list.sort(Integer::compareTo);
-//            int minVal = root.val;
-//            for (int i : list) {
-//                if (i > minVal) {
-//                    return i;
-//                }
-//            }
-//            return -1;
-//        }
-//
-//        void findSecondMinimumValueSub(TreeNode root) {
-//            if (root != null) {
-//                list.add(root.val);
-//                findSecondMinimumValueSub(root.left);
-//                findSecondMinimumValueSub(root.right);
-//            }
-//        }
-
-        int findSecondMinimumValue(TreeNode root) {
-            if (root == null) {
-                return -1;
+        boolean isSameTree(TreeNode p, TreeNode q) {
+            if (p == null && q != null) {
+                return false;
+            }
+            if (p != null && q == null) {
+                return false;
+            }
+            if (p == null && q == null) {
+                return true;
             }
 
-            return findSecondMinimumValue(root, root.val);
-        }
-
-        int findSecondMinimumValue(TreeNode node, int rootVal) {
-            if (node == null) {
-                return -1;
+            // now only remained p != null && q != null
+            if (p.val == q.val) {
+                boolean isLeftTreeSame = isSameTree(p.left, q.left);
+                boolean isRightTreeSame = isSameTree(p.right, q.right);
+                return isLeftTreeSame && isRightTreeSame;
+            } else {
+                return false;
             }
-
-            if (node.val != rootVal) {
-                return node.val;
-            }
-
-            int leftMinVal = findSecondMinimumValue(node.left, rootVal);
-            int rightMinVal = findSecondMinimumValue(node.right, rootVal);
-
-            if (leftMinVal == -1) {
-                return rightMinVal;
-            }
-
-            if (rightMinVal == -1) {
-                return leftMinVal;
-            }
-
-            return Math.min(leftMinVal, rightMinVal);
         }
 
     }
+
 }
